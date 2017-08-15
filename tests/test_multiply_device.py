@@ -1,6 +1,6 @@
-from basetestcase import MultiplyDeviceTestCase
-from views.home import HomeView
+from tests.basetestcase import MultiplyDeviceTestCase
 from tests.preconditions import set_chat_for_users_from_scratch
+from views.home import HomeView
 
 
 class TestMultiplyDevices(MultiplyDeviceTestCase):

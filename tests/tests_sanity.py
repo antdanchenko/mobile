@@ -1,6 +1,6 @@
-from basetestcase import SingleDeviceTestCase
-from views.home import HomeView
 import pytest
+from tests.basetestcase import SingleDeviceTestCase
+from views.home import HomeView
 
 
 class TestSanity(SingleDeviceTestCase):
