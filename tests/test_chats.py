@@ -20,7 +20,7 @@ class TestMultiplyDevices(MultiplyDeviceTestCase):
         key = profile_d1.public_key_text.get_key()
 
         device_2.back_button.click()
-        chats_d2 = device_1.get_chats()
+        chats_d2 = device_2.get_chats()
         chats_d2.plus_button.click()
         chats_d2.add_new_contact.click()
         chats_d2.public_key_edit_box.send_keys(key)

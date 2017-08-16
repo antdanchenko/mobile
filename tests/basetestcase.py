@@ -38,7 +38,7 @@ class AbstractTestCase:
         desired_caps['deviceOrientation'] = "portrait"
         desired_caps['name'] = tests_data.name
         desired_caps['build'] = pytest.config.getoption('build')
-        desired_caps['idleTimeout'] = 300
+        desired_caps['idleTimeout'] = 500
         return desired_caps
 
     def get_public_url(self, driver):
@@ -91,6 +91,5 @@ class MultiplyDeviceTestCase(AbstractTestCase):
         loop.close()
 
     def teardown_method(self, method):
-        for driver in self.driver_1, self.driver_2:
-            self.driver = driver
-            self.driver.quit()
+        self.driver_1.quit()
+        self.driver_2.quit()
