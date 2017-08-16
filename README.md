@@ -1,22 +1,24 @@
 # Installation:
 
-brew install python
-cd to project's root and pip3 install -r requirements.txt
+- brew install python
+- brew install allure
+- cd to project's root and pip3 install -r requirements.txt
 
-nano ~/.bash_profile
-export SAUCE_USERNAME=your username
-export SAUCE_ACCESS_KEY=your access key
-source ~/.bash_profile
+- nano ~/.bash_profile
+- export SAUCE_USERNAME=your_username
+- export SAUCE_ACCESS_KEY=your_access_key
+- source ~/.bash_profile
 
 # Running tests:
 
-cd to tests folder
-python3 -m pytest tests_sanity.py
+- cd to tests folder
+- python3 -m pytest tests_sanity.py
 
 ##### required parameter:
---apk url/path to apk
+- --apk url/path to apk
 
 ##### optional parameters:
 
---repeat int (number of repeating failed tests before final verdict)
--n int (number of parallel sessions)
+- --repeat int (number of repeating failed tests before final verdict)
+- --alluredir path (path to store allure results)
+- -n int (number of parallel sessions)

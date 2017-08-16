@@ -13,7 +13,6 @@ class AbstractTestCase:
 
     __metaclass__ = ABCMeta
 
-
     @property
     def sauce_access_key(self):
         return environ.get('SAUCE_ACCESS_KEY')
@@ -42,20 +41,12 @@ class AbstractTestCase:
         desired_caps['idleTimeout'] = 300
         return desired_caps
 
-    @property
-    def token(self):
-        return hmac.new(bytes(self.sauce_username + ":" + self.sauce_access_key, 'latin-1'),
-                        bytes(self.driver.session_id, 'latin-1'), md5).hexdigest()
-
-    def update_sauce_lab_result(self):
+    def get_public_url(self, driver):
+        token = hmac.new(bytes(self.sauce_username + ":" + self.sauce_access_key, 'latin-1'),
+                         bytes(driver.session_id, 'latin-1'), md5).hexdigest()
         SauceClient(self.sauce_username,
-                    self.sauce_access_key).jobs.update_job(self.driver.session_id, passed=tests_data.result,
-                                                           public=self.token)
-
-    @property
-    def public_url(self):
-        return "https://saucelabs.com/jobs/%s?auth=%s" % (self.driver.session_id, self.token)
-
+                    self.sauce_access_key).jobs.update_job(driver.session_id, public=token)
+        return "https://saucelabs.com/jobs/%s?auth=%s" % (driver.session_id, token)
 
     @property
     def executor_local(self):
@@ -80,19 +71,14 @@ class AbstractTestCase:
         raise NotImplementedError('Should be overridden from a child class')
 
 
-def create_session(executor, desired_caps):
-    return webdriver.Remote(executor, desired_caps)
-
-
 class SingleDeviceTestCase(AbstractTestCase):
 
     def setup_method(self, method):
-        self.driver = create_session(self.executor_sauce_lab, self.capabilities_sauce_lab)
+        self.driver = webdriver.Remote(self.executor_sauce_lab, self.capabilities_sauce_lab)
         self.driver.implicitly_wait(10)
 
     def teardown_method(self, method):
         self.driver.quit()
-        self.update_sauce_lab_result()
 
 
 class MultiplyDeviceTestCase(AbstractTestCase):
@@ -100,7 +86,7 @@ class MultiplyDeviceTestCase(AbstractTestCase):
     def setup_method(self, method):
 
         loop = asyncio.get_event_loop()
-        self.driver_1, self.driver_2 = loop.run_until_complete(start_threads(2, create_session, self.executor_sauce_lab,
+        self.driver_1, self.driver_2 = loop.run_until_complete(start_threads(2, webdriver.Remote, self.executor_sauce_lab,
                                                                              self.capabilities_sauce_lab))
         loop.close()
 
@@ -108,4 +94,3 @@ class MultiplyDeviceTestCase(AbstractTestCase):
         for driver in self.driver_1, self.driver_2:
             self.driver = driver
             self.driver.quit()
-            self.update_sauce_lab_result()

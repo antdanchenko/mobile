@@ -52,7 +52,7 @@ class BaseEditBox(BaseElement):
         self.driver = driver
 
     def send_keys(self, value):
-        with allure.step("Enter '%s' value to '%s'" % (self.__class__.__name__, value)):
+        with allure.step("Enter '%s' to '%s'" % (value, self.__class__.__name__)):
             self.find_element().send_keys(value)
 
 

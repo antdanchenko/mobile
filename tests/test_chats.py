@@ -1,3 +1,4 @@
+import pytest
 from tests.basetestcase import MultiplyDeviceTestCase
 from tests.preconditions import set_chat_for_users_from_scratch
 from views.home import HomeView
@@ -7,8 +8,10 @@ class TestMultiplyDevices(MultiplyDeviceTestCase):
 
     def test_private_chat(self):
 
+        pytest.allure.dynamic_issue(self.get_public_url(self.driver_1),
+                                    self.get_public_url(self.driver_2))
         device_1, device_2 = HomeView(self.driver_1), HomeView(self.driver_2)
-        set_chat_for_users_from_scratch([device_1, device_2])
+        set_chat_for_users_from_scratch(device_1, device_2)
 
         device_1.back_button.click()
         chats_d1 = device_1.get_chats()

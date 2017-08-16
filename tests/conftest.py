@@ -18,8 +18,3 @@ def pytest_generate_tests(metafunc):
         count = int(metafunc.config.option.repeat)
         metafunc.fixturenames.append('tmp_ct')
         metafunc.parametrize('tmp_ct', range(count))
-
-
-def pytest_report_teststatus(report):
-    if report.when != 'call' and not tests_data.result:
-        tests_data.result = report.outcome

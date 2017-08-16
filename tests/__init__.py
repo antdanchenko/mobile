@@ -16,6 +16,5 @@ class TestData(object):
 
     def __init__(self):
         self.name = None
-        self.result = None
 
 tests_data = TestData()
