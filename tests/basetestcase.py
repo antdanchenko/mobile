@@ -44,8 +44,6 @@ class AbstractTestCase:
     def get_public_url(self, driver):
         token = hmac.new(bytes(self.sauce_username + ":" + self.sauce_access_key, 'latin-1'),
                          bytes(driver.session_id, 'latin-1'), md5).hexdigest()
-        SauceClient(self.sauce_username,
-                    self.sauce_access_key).jobs.update_job(driver.session_id, public=token)
         return "https://saucelabs.com/jobs/%s?auth=%s" % (driver.session_id, token)
 
     @property

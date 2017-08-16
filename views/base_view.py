@@ -19,7 +19,7 @@ class BaseViewObject(object):
         self.back_button = BackButton(self.driver)
 
     def confirm(self):
-        with allure.step("Click on native 'Confirm' button"):
+        with allure.step("Tap on native 'Confirm' button"):
             self.driver.keyevent(66)
 
     def find_text(self, text):
