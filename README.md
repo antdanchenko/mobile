@@ -20,5 +20,5 @@
 
 - add SAUCE_USERNAME=your_username, SAUCE_ACCESS_KEY=your_access_key in jenkins_url/configure, as "Environment variables"
 - install Sauce OnDemand plugin in jenkins_url/pluginManager/available
-- add build step (Execute shell)  py.test -m sanity -n2 -v --apk http://url/application.apk --build ${JOB_NAME}__${BUILD_NUMBER}
+- add build step (Execute shell):  /usr/local/bin/python3 -m pytest -m sanity -n2 -v -s --apk http://url/application.apk --build ${JOB_NAME}__${BUILD_NUMBER}
 - add post build action "Run Sauce Labs Test Publisher"

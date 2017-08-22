@@ -46,10 +46,11 @@ class AbstractTestCase:
                          bytes(driver.session_id, 'latin-1'), md5).hexdigest()
         return "https://saucelabs.com/jobs/%s?auth=%s" % (driver.session_id, token)
 
-    def print_session_id(self, driver):
+    def print_sauce_lab_info(self, driver):
         sys.stdout = sys.stderr
         print("SauceOnDemandSessionID=%s job-name=%s" % (driver.session_id,
                                                          pytest.config.getoption('build')))
+        print(self.get_public_url(driver))
 
     @property
     def executor_local(self):
@@ -79,11 +80,10 @@ class SingleDeviceTestCase(AbstractTestCase):
     def setup_method(self, method):
         self.driver = webdriver.Remote(self.executor_sauce_lab, self.capabilities_sauce_lab)
         self.driver.implicitly_wait(10)
+        self.print_sauce_lab_info(self.driver)
 
     def teardown_method(self, method):
-        sys.stdout = sys.stderr
         self.driver.quit()
-        self.print_session_id(self.driver)
 
 
 class MultiplyDeviceTestCase(AbstractTestCase):
@@ -95,8 +95,10 @@ class MultiplyDeviceTestCase(AbstractTestCase):
         self.driver_2 = loop.run_until_complete(start_threads(2, webdriver.Remote,
                                                               self.executor_sauce_lab, self.capabilities_sauce_lab))
         loop.close()
+        for driver in self.driver_1, self.driver_2:
+            driver.quit()
+            self.print_sauce_lab_info(driver)
 
     def teardown_method(self, method):
         for driver in self.driver_1, self.driver_2:
             driver.quit()
-            self.print_session_id(driver)
