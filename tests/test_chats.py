@@ -9,6 +9,9 @@ class TestMultiplyDevices(MultiplyDeviceTestCase):
 
     def test_private_chat(self):
 
+        for driver in self.driver_1, self.driver_2:
+            self.print_sauce_lab_info(driver)
+
         device_1, device_2 = HomeView(self.driver_1), HomeView(self.driver_2)
         set_chat_for_users_from_scratch(device_1, device_2)
 

@@ -17,6 +17,8 @@ class TestSanity(SingleDeviceTestCase):
                      'mismatch': 'mismatch1234',
                      'valid': 'qwerty1234'}
 
+        self.print_sauce_lab_info(self.driver)
+
         home = HomeView(self.driver)
         home.request_password_icon.click()
         home.type_message_edit_box.send_keys(passwords[verification])
