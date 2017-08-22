@@ -3,7 +3,6 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 import pytest
-import allure
 
 
 class BaseElement(object):
@@ -33,12 +32,11 @@ class BaseElement(object):
         return None
 
     def find_element(self):
-        with allure.step('Looking for %s element' % self.__class__.__name__):
-            try:
-                return self.wait_for_element()
-            except (NoSuchElementException, TimeoutException):
-                pytest.fail("'%s' not found by %s '%s'" % (
-                    self.name, self.locator.by, self.locator.value), pytrace=False)
+        try:
+            return self.wait_for_element()
+        except (NoSuchElementException, TimeoutException):
+            pytest.fail("'%s' not found by %s '%s'" % (
+                self.name, self.locator.by, self.locator.value), pytrace=False)
 
     def wait_for_element(self, seconds=30):
         return WebDriverWait(self.driver, seconds)\
@@ -52,8 +50,7 @@ class BaseEditBox(BaseElement):
         self.driver = driver
 
     def send_keys(self, value):
-        with allure.step("Enter '%s' to '%s'" % (value, self.__class__.__name__)):
-            self.find_element().send_keys(value)
+        self.find_element().send_keys(value)
 
 
 class BaseText(BaseElement):
@@ -74,6 +71,5 @@ class BaseButton(BaseElement):
         self.driver = driver
 
     def click(self):
-        with allure.step("Tap on '%s'" % self.__class__.__name__):
-            self.find_element().click()
-            return self.navigate()
+        self.find_element().click()
+        return self.navigate()

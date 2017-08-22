@@ -9,11 +9,10 @@ class PublicKeyText(BaseText):
         self.locator = self.Locator.xpath_selector("//android.widget.TextView")
 
     def get_key(self):
-        with allure.step("Get public key"):
-            texts = self.driver.find_elements(self.locator.by, self.locator.value)
-            for i in texts:
-                if i.text.startswith('0x04'):
-                    return i.text
+        texts = self.driver.find_elements(self.locator.by, self.locator.value)
+        for i in texts:
+            if i.text.startswith('0x04'):
+                return i.text
         pytest.fail("Public key wasn't found!")
 
 

@@ -1,18 +1,12 @@
 # Installation:
 
 - brew install python
-- brew install allure
 - cd to project's root and pip3 install -r requirements.txt
-
-- nano ~/.bash_profile
-- export SAUCE_USERNAME=your_username
-- export SAUCE_ACCESS_KEY=your_access_key
-- source ~/.bash_profile
 
 # Running tests:
 
 - cd to tests folder
-- python3 -m pytest tests_sanity.py
+- py.test -m sanity
 
 ##### required parameter:
 - --apk url/path to apk
@@ -20,9 +14,11 @@
 ##### optional parameters:
 
 - --repeat int (number of repeating failed tests before final verdict)
-- --alluredir path (path to store allure results)
 - -n int (number of parallel sessions)
 
-##### example:
+##### Jenkins setup:
 
--  py.test -m sanity --apk http://url/application.apk -n2 -v
+- add SAUCE_USERNAME=your_username, SAUCE_ACCESS_KEY=your_access_key in jenkins_url/configure, as "Environment variables"
+- install Sauce OnDemand plugin in jenkins_url/pluginManager/available
+- add build step (Execute shell)  py.test -m sanity -n2 -v --apk http://url/application.apk --build ${JOB_NAME}__${BUILD_NUMBER}
+- add post build action "Run Sauce Labs Test Publisher"

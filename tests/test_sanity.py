@@ -13,7 +13,6 @@ class TestSanity(SingleDeviceTestCase):
                                                       ])
     def test_password(self, verification, text):
 
-        pytest.allure.dynamic_issue(self.get_public_url(self.driver))
         passwords = {"short": "qwe1",
                      'mismatch': 'mismatch1234',
                      'valid': 'qwerty1234'}
