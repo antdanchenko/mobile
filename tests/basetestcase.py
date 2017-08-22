@@ -1,5 +1,5 @@
 import pytest
-from sauceclient import SauceClient
+import sys
 from tests import *
 from os import environ
 from appium import webdriver
@@ -47,7 +47,9 @@ class AbstractTestCase:
         return "https://saucelabs.com/jobs/%s?auth=%s" % (driver.session_id, token)
 
     def print_session_id(self, driver):
-        print("SauceOnDemandSessionID=%s job-name=%s" % (driver.session_id, pytest.config.getoption('build')))
+        sys.stdout = sys.stderr
+        print("SauceOnDemandSessionID=%s job-name=%s" % (driver.session_id,
+                                                         pytest.config.getoption('build')))
 
     @property
     def executor_local(self):
@@ -79,6 +81,7 @@ class SingleDeviceTestCase(AbstractTestCase):
         self.driver.implicitly_wait(10)
 
     def teardown_method(self, method):
+        sys.stdout = sys.stderr
         self.driver.quit()
         self.print_session_id(self.driver)
 

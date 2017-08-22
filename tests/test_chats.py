@@ -4,7 +4,7 @@ from tests.preconditions import set_chat_for_users_from_scratch
 from views.home import HomeView
 
 
-@pytest.mark.sanity2
+@pytest.mark.sanity
 class TestMultiplyDevices(MultiplyDeviceTestCase):
 
     def test_private_chat(self):
