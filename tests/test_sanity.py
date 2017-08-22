@@ -3,9 +3,8 @@ from tests.basetestcase import SingleDeviceTestCase
 from views.home import HomeView
 
 
+@pytest.mark.sanity
 class TestSanity(SingleDeviceTestCase):
-
-    pytestmark = pytest.mark.sanity
 
     @pytest.mark.parametrize('verification, text', [
         ("short", "Password should be not less then 6 symbols."),

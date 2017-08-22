@@ -25,4 +25,4 @@
 
 ##### example:
 
-- python3 -m pytest -m sanity --apk http://url/application.apk -n2 -v
+-  py.test -m sanity --apk http://url/application.apk -n2 -v
