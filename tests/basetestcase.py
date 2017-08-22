@@ -99,7 +99,6 @@ class MultiplyDeviceTestCase(AbstractTestCase):
                                                               self.capabilities_sauce_lab))
         loop.close()
         for driver in self.driver_1, self.driver_2:
-            driver.quit()
             self.print_sauce_lab_info(driver)
 
     def teardown_method(self, method):
