@@ -5,6 +5,8 @@ from views.home import HomeView
 
 class TestSanity(SingleDeviceTestCase):
 
+    pytestmark = pytest.mark.sanity
+
     @pytest.mark.parametrize('verification, text', [
         ("short", "Password should be not less then 6 symbols."),
         ("mismatch", "Password confirmation doesn\'t match password."),

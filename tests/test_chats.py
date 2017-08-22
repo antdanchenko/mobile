@@ -6,6 +6,8 @@ from views.home import HomeView
 
 class TestMultiplyDevices(MultiplyDeviceTestCase):
 
+    pytestmark = pytest.mark.sanity
+
     def test_private_chat(self):
 
         pytest.allure.dynamic_issue(self.get_public_url(self.driver_1),

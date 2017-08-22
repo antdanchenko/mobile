@@ -22,3 +22,7 @@
 - --repeat int (number of repeating failed tests before final verdict)
 - --alluredir path (path to store allure results)
 - -n int (number of parallel sessions)
+
+##### example:
+
+- python3 -m pytest -m sanity --apk http://url/application.apk -n2 -v
