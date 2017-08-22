@@ -26,6 +26,10 @@ class AbstractTestCase:
         return 'http://%s:%s@ondemand.saucelabs.com:80/wd/hub' % (self.sauce_username, self.sauce_access_key)
 
     @property
+    def executor_sauce_lab_tunel(self):
+        return 'http://localhost:4445/wb/hub'
+
+    @property
     def capabilities_sauce_lab(self):
 
         desired_caps = dict()
@@ -78,7 +82,8 @@ class AbstractTestCase:
 class SingleDeviceTestCase(AbstractTestCase):
 
     def setup_method(self, method):
-        self.driver = webdriver.Remote(self.executor_sauce_lab, self.capabilities_sauce_lab)
+        self.driver = webdriver.Remote(self.executor_sauce_lab_tunel,
+                                       self.capabilities_sauce_lab)
         self.driver.implicitly_wait(10)
         self.print_sauce_lab_info(self.driver)
 
@@ -92,8 +97,10 @@ class MultiplyDeviceTestCase(AbstractTestCase):
 
         loop = asyncio.get_event_loop()
         self.driver_1, \
-        self.driver_2 = loop.run_until_complete(start_threads(2, webdriver.Remote,
-                                                              self.executor_sauce_lab, self.capabilities_sauce_lab))
+        self.driver_2 = loop.run_until_complete(start_threads(2,
+                                                              webdriver.Remote,
+                                                              self.executor_sauce_lab_tunel,
+                                                              self.capabilities_sauce_lab))
         loop.close()
         for driver in self.driver_1, self.driver_2:
             driver.quit()
