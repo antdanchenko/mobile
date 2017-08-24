@@ -13,7 +13,6 @@
 
 ##### optional parameters:
 
-- --repeat int (number of repeating failed tests before final verdict)
 - -n int (number of parallel sessions)
 
 ##### Jenkins setup:

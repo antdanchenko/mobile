@@ -81,9 +81,9 @@ class SingleDeviceTestCase(AbstractTestCase):
         self.driver = webdriver.Remote(self.executor_sauce_lab,
                                        self.capabilities_sauce_lab)
         self.driver.implicitly_wait(10)
-        self.print_sauce_lab_info(self.driver)
 
     def teardown_method(self, method):
+        self.print_sauce_lab_info(self.driver)
         self.driver.quit()
 
 
@@ -100,8 +100,8 @@ class MultiplyDeviceTestCase(AbstractTestCase):
         loop.close()
         for driver in self.driver_1, self.driver_2:
             driver.implicitly_wait(10)
-            self.print_sauce_lab_info(driver)
 
     def teardown_method(self, method):
         for driver in self.driver_1, self.driver_2:
+            self.print_sauce_lab_info(driver)
             driver.quit()
